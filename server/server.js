@@ -8,14 +8,47 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+function getrand() {
+  return Math.floor(Math.random() * 16);
+}
+
 app.post("/creategame", (req, res) => {
-  let rand = Math.floor(Math.random() * 16);
+  let gameid = Math.floor(Math.random() * 9000) + 1000;
+  let rands = [];
+  let nb = parseInt(req.body.bombs);
+  if (!nb) {
+    res.json({ msg: "Invalid Request" });
+    return;
+  }
+  let i = 0;
+  while (i < nb) {
+    let rand = getrand();
+    let found = false;
+    rands.forEach((value) => {
+      if (value === rand) found = true;
+    });
+    if (!found) {
+      rands.push(rand);
+      i++;
+    }
+  }
   let l = [];
   for (let i = 0; i < 16; i++) {
-    l.push(rand === i ? 1 : 0);
+    let found = false;
+    rands.forEach((value) => {
+      if (value === i) found = true;
+    });
+    if (found) l.push(1);
+    else l.push(0);
   }
   let jtoken = jwt.sign(
-    { game: l, ct: Date.now(), mt: Date.now() + 600000, bomb: rand },
+    {
+      game: l,
+      ct: Date.now(),
+      mt: Date.now() + 600000,
+      bomb: rands,
+      gameid: gameid,
+    },
     "sfhafy8r3cnv74rn37ny4tct8v3r"
   );
   res.json({ token: jtoken });
@@ -25,7 +58,7 @@ app.post("/getdata", (req, res) => {
   let token = req.body.token;
   let move = req.body.move;
   let data = jwt.verify(token, "sfhafy8r3cnv74rn37ny4tct8v3r");
-  if (!data.game || !data.ct || !data.mt || !data.bomb) {
+  if (!data.game || !data.ct || !data.mt || !data.bomb || !data.gameid) {
     res.json({ msg: "Invalid Token" });
     return;
   }
@@ -34,9 +67,16 @@ app.post("/getdata", (req, res) => {
     res.json({ msg: "Time Out" });
     return;
   }
-  if (move === parseInt(data.bomb)) {
-    res.json({ msg: "Out" });
-  } else {
+  let bombs = data.bomb;
+  let out = false;
+  bombs.forEach((value) => {
+    if (value === move) {
+      out = true;
+      res.json({ msg: "Out", bombs: bombs });
+      return;
+    }
+  });
+  if (!out) {
     res.json({ msg: "Safe" });
   }
 });

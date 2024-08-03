@@ -8,4 +8,28 @@
 	margin: 0;
 }
 
-:root {}
+
+@media screen and (max-width:800px) {
+	:root {
+		--base-background: #202c3c;
+		--font-color: #f1f1f1;
+	}
+
+	body {
+		background-color: var(--base-background);
+	}
+
+	.header {
+		margin-top: 20px;
+	}
+
+	.header h1 {
+		text-align: center;
+	}
+
+	.header h1 a {
+		text-decoration: none;
+		padding: 5px 10px;
+		color: var(--font-color);
+	}
+}

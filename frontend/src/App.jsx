@@ -1,20 +1,11 @@
-import { useState } from "react";
+import Header from "./components/header"
 function App() {
-  const [msg, setMsg] = useState("")
-
-  const clicked = () => {
-    sessionStorage.setItem("token", "123");
-    setMsg(sessionStorage.getItem("token"))
+  window.onload = () => {
+    sessionStorage.removeItem("token")
   }
   return (
     <>
-      {
-        window.onload = () => {
-          sessionStorage.setItem("token", "");
-        }
-      }
-      <button onClick={clicked}>Click Me</button>
-      <p>{msg}</p>
+      <Header />
     </>
 
   )
