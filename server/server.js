@@ -12,6 +12,10 @@ function getrand() {
   return Math.floor(Math.random() * 16);
 }
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 app.post("/creategame", (req, res) => {
   let gameid = Math.floor(Math.random() * 9000) + 1000;
   let rands = [];
@@ -70,7 +74,7 @@ app.post("/getdata", (req, res) => {
   let bombs = data.bomb;
   let out = false;
   bombs.forEach((value) => {
-    if (value === move) {
+    if (value === parseInt(move)) {
       out = true;
       res.json({ msg: "Out", bombs: bombs });
       return;
@@ -81,6 +85,6 @@ app.post("/getdata", (req, res) => {
   }
 });
 
-app.listen(5050, () => {
+app.listen(5050, "0.0.0.0", () => {
   console.log("Server is running on http://localhost:5050");
 });

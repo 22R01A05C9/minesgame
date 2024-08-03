@@ -7,7 +7,7 @@ function GameArea(props) {
             <div className="blocks">
                 {
                     list.map((item) => {
-                        return <Block id={item} key={item} />
+                        return <Block id={item} key={item} clicked={props.clicked} />
                     })
                 }
             </div>
