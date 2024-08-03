@@ -32,4 +32,26 @@
 		padding: 5px 10px;
 		color: var(--font-color);
 	}
+
+	.gameinfo {
+		display: flex;
+		justify-content: space-between;
+		border: 2px solid white;
+		border-radius: 10px;
+		width: 90%;
+		margin: 20px auto 0;
+
+	}
+
+	.gameinfo p {
+		color: var(--font-color)
+	}
+
+	.gameinfo .gameid {
+		margin-left: 25px;
+	}
+
+	.gameinfo .timer {
+		margin-right: 25px;
+	}
 }

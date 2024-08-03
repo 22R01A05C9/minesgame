@@ -1,4 +1,7 @@
 import Header from "./components/header"
+import GameInfo from "./components/gameinfo"
+import GameArea from "./components/gamearea"
+
 function App() {
   window.onload = () => {
     sessionStorage.removeItem("token")
@@ -6,6 +9,8 @@ function App() {
   return (
     <>
       <Header />
+      <GameInfo gameid={"1234"} />
+      <GameArea />
     </>
 
   )

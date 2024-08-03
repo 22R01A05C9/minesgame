@@ -51,7 +51,7 @@ app.post("/creategame", (req, res) => {
     },
     "sfhafy8r3cnv74rn37ny4tct8v3r"
   );
-  res.json({ token: jtoken });
+  res.json({ token: jtoken, bombs: req.body.bombs });
 });
 
 app.post("/getdata", (req, res) => {
