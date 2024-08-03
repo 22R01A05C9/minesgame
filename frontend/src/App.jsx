@@ -5,6 +5,7 @@ import Options from "./components/options"
 import Footer from "./components/footer"
 import { useState } from "react"
 function App() {
+	let maxScore = localStorage.getItem("maxScore") || 0;
 	let [gamestarted, setgamestarted] = useState(false)
 	let [expired, setexpired] = useState(false)
 	let [score, setscore] = useState(0)
@@ -12,7 +13,13 @@ function App() {
 		sessionStorage.removeItem("token")
 	}
 	const startgame = () => {
-		console.log("game started")
+		let mines = 1;
+		document.querySelectorAll(".buttons button").forEach((value) => {
+			if (value.classList.contains("acive")) {
+				mines = value.innerHTML;
+			}
+		})
+		console.log(mines);
 		setgamestarted(true);
 	}
 
@@ -31,7 +38,7 @@ function App() {
 	return (
 		<div className="game">
 			<Header />
-			<GameInfo gameid={"1234"} gamestarted={gamestarted} gameexpired={gameexpired} score={score} />
+			<GameInfo gameid={"1234"} gamestarted={gamestarted} gameexpired={gameexpired} score={score} maxScore={maxScore} />
 			<GameArea gamestarted={gamestarted} setscore={setscore} startgame={startgame} expired={expired} clickedgameover={clickedgameover} score={score} />
 			<Options gamestarted={gamestarted} />
 			<Footer />
