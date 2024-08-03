@@ -17,6 +17,7 @@
 		--block-hover: #557086;
 		--shading-background: #44444485;
 		--button-background: #0f202f;
+		--button-border: #959292;
 	}
 
 	body {
@@ -110,5 +111,39 @@
 	.shading button:hover {
 		scale: 1.05;
 		background-color: var(--block-base);
+	}
+
+	.options {
+		margin-top: 30px;
+	}
+
+	.options p {
+		text-align: center;
+		color: var(--font-color)
+	}
+
+	.options .buttons {
+		display: flex;
+		flex-direction: row;
+		gap: 20px;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20px;
+	}
+
+
+
+	.options .buttons button {
+		background-color: var(--block-base);
+		min-width: 10vw;
+		outline: none;
+		padding: 10px;
+		border: 1px solid var(--button-border);
+		color: var(--font-color);
+		border-radius: 10px;
+	}
+
+	.active {
+		background-color: #0c0c0c !important;
 	}
 }
