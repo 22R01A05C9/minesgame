@@ -105,7 +105,14 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		flex-direction: column;
 		background-color: var(--shading-background);
+		gap: 20px;
+	}
+
+	.shading p {
+		color: var(--font-color);
+		font-size: 25px;
 	}
 
 	.shading button {

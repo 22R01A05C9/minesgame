@@ -11,7 +11,8 @@ function GameArea(props) {
                     })
                 }
             </div>
-            {props.shading ? <Shading /> : null}
+            {props.gamestarted ? null : <Shading message={"Start Game!"} click={props.startgame} />}
+            {props.expired ? <Shading message={"Game Over!"} score={props.score} click={props.clickedgameover} /> : null}
         </div>
     )
 }
