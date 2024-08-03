@@ -13,6 +13,10 @@
 	:root {
 		--base-background: #202c3c;
 		--font-color: #f1f1f1;
+		--block-base: #2f4553;
+		--block-hover: #557086;
+		--shading-background: #44444485;
+		--button-background: #0f202f;
 	}
 
 	body {
@@ -53,5 +57,58 @@
 
 	.gameinfo .timer {
 		margin-right: 25px;
+	}
+
+	.gamearea {
+		margin-top: 30px;
+		position: relative;
+	}
+
+	.blocks {
+
+		display: grid;
+		justify-content: center;
+		gap: 10px;
+		grid-template-columns: repeat(4, calc(100vw/4 - 6vw));
+		grid-template-rows: repeat(4, calc(100vw/4 - 12px));
+	}
+
+	.blocks .block {
+		border-radius: 10px;
+		background-color: var(--block-base);
+	}
+
+	.blocks .block:hover {
+		background-color: var(--block-hover);
+		scale: 1.05;
+	}
+
+	.shading {
+		height: 100vw;
+		width: 89vw;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--shading-background);
+	}
+
+	.shading button {
+		padding: 15px;
+		font-size: 15px;
+		border-radius: 10px;
+		outline: none;
+		border: none;
+		background-color: var(--button-background);
+		color: var(--font-color);
+	}
+
+	.shading button:hover {
+		scale: 1.05;
+		background-color: var(--block-base);
 	}
 }

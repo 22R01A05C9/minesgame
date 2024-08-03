@@ -10,7 +10,7 @@ function App() {
     <>
       <Header />
       <GameInfo gameid={"1234"} />
-      <GameArea />
+      <GameArea shading={true} />
     </>
 
   )

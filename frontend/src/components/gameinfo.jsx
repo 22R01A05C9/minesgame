@@ -1,7 +1,7 @@
 
 function GameInfo(props) {
     return (
-        <div class="gameinfo">
+        <div className="gameinfo">
             <div className="gameid">
                 <p> Game ID: <strong>{props.gameid}</strong> </p>
             </div>
