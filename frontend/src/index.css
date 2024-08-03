@@ -41,12 +41,16 @@
 	}
 
 	.gameinfo {
-		display: flex;
+		display: grid;
+		grid-template-columns: 49vw 49vw;
+		grid-template-rows: 30px 30px;
 		justify-content: space-between;
 		border: 2px solid white;
 		border-radius: 10px;
 		width: 90%;
 		margin: 20px auto 0;
+		gap: 5px;
+		align-items: center;
 
 	}
 
@@ -59,7 +63,7 @@
 	}
 
 	.gameinfo .timer {
-		margin-right: 25px;
+		margin-left: 25px;
 	}
 
 	.gamearea {
@@ -79,6 +83,10 @@
 	.blocks .block {
 		border-radius: 10px;
 		background-color: var(--block-base);
+	}
+
+	.blocks .block img {
+		display: none;
 	}
 
 	.blocks .block:hover {
@@ -117,6 +125,7 @@
 
 	.options {
 		margin-top: 40px;
+		padding-bottom: 100px;
 	}
 
 	.options p {
@@ -147,10 +156,10 @@
 
 	.active {
 		background-color: #0c0c0c !important;
+		scale: 1.1;
 	}
 
 	.footer {
-		margin-top: 20px;
 		background-color: var(--footer-background);
 		position: fixed;
 		bottom: 0;

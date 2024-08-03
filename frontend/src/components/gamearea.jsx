@@ -1,25 +1,15 @@
 import Shading from "./shading"
-
+import Block from "./block"
 function GameArea(props) {
+    let list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     return (
         <div className="gamearea">
             <div className="blocks">
-                <div className="block 0"></div>
-                <div className="block 1"></div>
-                <div className="block 2"></div>
-                <div className="block 3"></div>
-                <div className="block 4"></div>
-                <div className="block 5"></div>
-                <div className="block 6"></div>
-                <div className="block 7"></div>
-                <div className="block 8"></div>
-                <div className="block 9"></div>
-                <div className="block 10"></div>
-                <div className="block 11"></div>
-                <div className="block 12"></div>
-                <div className="block 13"></div>
-                <div className="block 14"></div>
-                <div className="block 15"></div>
+                {
+                    list.map((item) => {
+                        return <Block id={item} key={item} />
+                    })
+                }
             </div>
             {props.shading ? <Shading /> : null}
         </div>
