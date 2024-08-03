@@ -14,6 +14,7 @@ function App() {
       <GameInfo gameid={"1234"} />
       <GameArea shading={true} />
       <Options />
+      <Footer />
     </>
 
   )

@@ -13,11 +13,13 @@
 	:root {
 		--base-background: #202c3c;
 		--font-color: #f1f1f1;
+		--font-light-color: #b5b0b0;
 		--block-base: #2f4553;
 		--block-hover: #557086;
 		--shading-background: #44444485;
 		--button-background: #0f202f;
 		--button-border: #959292;
+		--footer-background: #444444;
 	}
 
 	body {
@@ -114,7 +116,7 @@
 	}
 
 	.options {
-		margin-top: 30px;
+		margin-top: 40px;
 	}
 
 	.options p {
@@ -128,9 +130,8 @@
 		gap: 20px;
 		align-items: center;
 		justify-content: center;
-		margin-top: 20px;
+		margin-top: 10px;
 	}
-
 
 
 	.options .buttons button {
@@ -141,9 +142,28 @@
 		border: 1px solid var(--button-border);
 		color: var(--font-color);
 		border-radius: 10px;
+		font-size: 15px;
 	}
 
 	.active {
 		background-color: #0c0c0c !important;
+	}
+
+	.footer {
+		margin-top: 20px;
+		background-color: var(--footer-background);
+		position: fixed;
+		bottom: 0;
+		width: 100vw;
+	}
+
+	.footer p {
+		color: var(--font-color);
+		text-align: center;
+	}
+
+	.footer p a {
+		color: var(--font-light-color);
+		text-decoration: none;
 	}
 }
