@@ -29,13 +29,13 @@ function App() {
 
 
 	return (
-		<>
+		<div className="game">
 			<Header />
 			<GameInfo gameid={"1234"} gamestarted={gamestarted} gameexpired={gameexpired} score={score} />
-			<GameArea gamestarted={gamestarted} startgame={startgame} expired={expired} clickedgameover={clickedgameover} score={score} />
+			<GameArea gamestarted={gamestarted} setscore={setscore} startgame={startgame} expired={expired} clickedgameover={clickedgameover} score={score} />
 			<Options gamestarted={gamestarted} />
 			<Footer />
-		</>
+		</div>
 
 	)
 }

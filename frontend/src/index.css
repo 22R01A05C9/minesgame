@@ -58,11 +58,11 @@
 		color: var(--font-color)
 	}
 
-	.gameinfo .gameid {
+	.gameinfo .gameid, .gameinfo .timer {
 		margin-left: 25px;
 	}
 
-	.gameinfo .timer {
+		{
 		margin-left: 25px;
 	}
 
@@ -72,7 +72,6 @@
 	}
 
 	.blocks {
-
 		display: grid;
 		justify-content: center;
 		gap: 10px;
@@ -81,6 +80,9 @@
 	}
 
 	.blocks .block {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		border-radius: 10px;
 		background-color: var(--block-base);
 	}
@@ -170,6 +172,8 @@
 		background-color: var(--footer-background);
 		position: fixed;
 		bottom: 0;
+		right: 0;
+		left: 0;
 		width: 100vw;
 	}
 
@@ -181,5 +185,11 @@
 	.footer p a {
 		color: var(--font-light-color);
 		text-decoration: none;
+	}
+
+	.fail .bomb, .success .diamond {
+		display: block !important;
+		width: calc(100vw/4 - 10vw);
+		height: calc(100vw/4 - 30px);
 	}
 }
