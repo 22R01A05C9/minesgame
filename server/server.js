@@ -32,6 +32,7 @@ app.post("/getdata", (req, res) => {
   let ct = Date.now();
   if (ct > data.mt) {
     res.json({ msg: "Time Out" });
+    return;
   }
   if (move === parseInt(data.bomb)) {
     res.json({ msg: "Out" });
