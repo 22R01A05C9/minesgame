@@ -6,8 +6,11 @@ import Footer from "./components/footer"
 import successaudio from "./assets/music/success.mp3"
 import failaudio from "./assets/music/fail.mp3"
 import { useState } from "react"
-function App() {
 
+
+
+function App() {
+	let link = window.location.href.split(":")
 	let maxScore = localStorage.getItem("maxScore") || 0;
 	let [interval, setinterval] = useState(null)
 	let [gamestarted, setgamestarted] = useState(false)
@@ -18,7 +21,7 @@ function App() {
 		sessionStorage.removeItem("token")
 	}
 	const startgame = () => {
-		console.log((window.location.href))
+
 		document.querySelectorAll(".block").forEach((value) => {
 			value.classList.remove("success")
 			value.classList.remove("fail")
@@ -29,7 +32,7 @@ function App() {
 				mines = value.innerHTML;
 			}
 		})
-		fetch("http://localhost:5050/creategame", {
+		fetch(link[0] + ":" + link[1] + ":5050/creategame", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -56,8 +59,12 @@ function App() {
 	}
 
 	const clicked = (e) => {
+		if ((e.target.classList.contains("success")) || (e.target.classList.contains("fail")) || e.target.classList.contains("diamond") || e.target.classList.contains("bomb")) {
+			return;
+		}
 		let blockid = e.target.className.split(" ")[1].substring(1)
-		fetch("http://localhost:5050/getdata", {
+
+		fetch(link[0] + ":" + link[1] + ":5050/getdata", {
 			method: "POST",
 			headers: {
 				"content-type": "application/json"

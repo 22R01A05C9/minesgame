@@ -183,9 +183,20 @@
 		text-decoration: none;
 	}
 
-	.fail .bomb, .success .diamond {
+	.fail .bomb, .success .diamond, .success .twinkle {
 		display: block !important;
 		width: calc(100vw/4 - 10vw);
 		height: calc(100vw/4 - 30px);
+		animation: fade 0.5s linear;
+	}
+
+	@keyframes fade {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
 	}
 }

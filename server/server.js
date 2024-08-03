@@ -3,7 +3,11 @@ const app = express();
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const corsOptions = {
-  origin: ["http://localhost:5173", "http://localhost:5174"],
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://192.168.0.100:5173",
+  ],
 };
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -56,6 +60,10 @@ app.post("/creategame", (req, res) => {
     "sfhafy8r3cnv74rn37ny4tct8v3r"
   );
   res.json({ token: jtoken, bombs: req.body.bombs, gameid: gameid });
+});
+
+app.get("/creategame", (req, res) => {
+  res.json({ msg: "Hello" });
 });
 
 app.post("/getdata", (req, res) => {
