@@ -93,7 +93,7 @@ function App() {
 						}
 					})
 					if (score > (parseInt(localStorage.getItem("maxScore")) || 0)) {
-						localStorage.setItem("maxScore", score)
+						localStorage.setItem("maxScore", (score + ((nclicked + 1) * parseInt(data.mines))))
 						setsecmsg("New High Score: ")
 					}
 					clearInterval(interval)

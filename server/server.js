@@ -61,6 +61,7 @@ app.post("/creategame", (req, res) => {
     },
     "sfhafy8r3cnv74rn37ny4tct8v3r"
   );
+  console.log(l)
   res.json({ token: jtoken, bombs: req.body.bombs, gameid: gameid });
 });
 
