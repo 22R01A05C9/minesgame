@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const corsOptions = {
   origin: [
@@ -96,7 +97,20 @@ app.post("/getdata", (req, res) => {
 
 app.post("/feedback", (req, res) => {
   console.log(req.body);
+  fs.readFile("feedback.txt", (err, data) => {
+    let arr = JSON.parse(data.toString());
+    arr.push(req.body);
+    fs.writeFile("feedback.txt", JSON.stringify(arr), (err) => {
+      if (err) console.log(err);
+    });
+  });
   res.json({ msg: "Success" });
+});
+
+app.get("/feedback", (req, res) => {
+  fs.readFile("feedback.txt", (err, data) => {
+    res.json(JSON.parse(data.toString()));
+  });
 });
 
 app.listen(5050, "0.0.0.0", () => {
