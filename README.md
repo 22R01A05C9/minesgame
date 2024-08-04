@@ -42,7 +42,7 @@ To get a local copy up and running, follow these simple steps:
 
 5. Navigate to the frontend directory:
 
-    `cd frontend'
+    `cd frontend`
 
 6. Start the React development server:
 
