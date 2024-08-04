@@ -92,7 +92,7 @@ function App() {
 							value.classList.add("fail")
 						}
 					})
-					if (score > (parseInt(localStorage.getItem("maxScore")) || 0)) {
+					if ((score + ((nclicked + 1) * parseInt(data.mines))) > (parseInt(localStorage.getItem("maxScore")) || 0)) {
 						localStorage.setItem("maxScore", (score + ((nclicked + 1) * parseInt(data.mines))))
 						setsecmsg("New High Score: ")
 					}
