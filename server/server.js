@@ -56,6 +56,7 @@ app.post("/creategame", (req, res) => {
       mt: Date.now() + 600000,
       bomb: rands,
       gameid: gameid,
+      mines: nb,
     },
     "sfhafy8r3cnv74rn37ny4tct8v3r"
   );
@@ -89,7 +90,7 @@ app.post("/getdata", (req, res) => {
     }
   });
   if (!out) {
-    res.json({ msg: "Safe" });
+    res.json({ msg: "Safe", mines: data.mines });
   }
 });
 

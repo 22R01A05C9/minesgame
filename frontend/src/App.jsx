@@ -5,6 +5,9 @@ import Options from "./components/options"
 import Footer from "./components/footer"
 import successaudio from "./assets/music/success.mp3"
 import failaudio from "./assets/music/fail.mp3"
+import startaudio from "./assets/music/game-start.mp3"
+
+
 import { useState } from "react"
 
 
@@ -16,12 +19,15 @@ function App() {
 	let [gamestarted, setgamestarted] = useState(false)
 	let [expired, setexpired] = useState(false)
 	let [score, setscore] = useState(0)
+	let [nclicked, setnclicked] = useState(0)
 	let [gameid, setgameid] = useState("1234")
 	window.onload = () => {
 		sessionStorage.removeItem("token")
 	}
 	const startgame = () => {
-
+		setscore(0)
+		setnclicked(0)
+		new Audio(startaudio).play()
 		document.querySelectorAll(".block").forEach((value) => {
 			value.classList.remove("success")
 			value.classList.remove("fail")
@@ -49,7 +55,7 @@ function App() {
 	}
 
 	const clickedgameover = () => {
-		setscore(0)
+
 		setgamestarted(false);
 		setexpired(false);
 	}
@@ -77,8 +83,20 @@ function App() {
 			if (data.msg === "Safe") {
 				e.target.classList.add("success")
 				new Audio(successaudio).play()
-				setscore((score) => { return score + 1 })
+				setnclicked((nclicked) => { return nclicked + 1 })
+				if (nclicked + 1 === 16 - data.mines) {
+					console.log("yes")
+				}
+				setscore((score) => { return score + ((nclicked + 1) * parseInt(data.mines)) })
 			} else {
+				data.bombs.forEach((value) => {
+					document.querySelector(`.a${value}`).classList.add("fail")
+				})
+				document.querySelectorAll(".blocks .block").forEach((value) => {
+					if (!value.classList.contains("fail")) {
+						value.classList.add("success")
+					}
+				})
 				e.target.classList.add("fail")
 				new Audio(failaudio).play()
 				if (score > (parseInt(localStorage.getItem("maxScore")) || 0)) {
@@ -95,8 +113,11 @@ function App() {
 	return (
 		<div className="game">
 			<Header />
-			<GameInfo gameid={gameid} gamestarted={gamestarted} gameexpired={gameexpired} score={score} maxScore={maxScore} setinterval={setinterval} />
-			<GameArea gamestarted={gamestarted} setscore={setscore} startgame={startgame} expired={expired} clickedgameover={clickedgameover} score={score} clicked={clicked} />
+			<div className="maingame">
+				<GameInfo gameid={gameid} gamestarted={gamestarted} gameexpired={gameexpired} score={score} maxScore={maxScore} setinterval={setinterval} />
+				<GameArea gamestarted={gamestarted} setscore={setscore} startgame={startgame} expired={expired} clickedgameover={clickedgameover} score={score} clicked={clicked} />
+			</div>
+
 			<Options gamestarted={gamestarted} />
 			<Footer />
 		</div>
