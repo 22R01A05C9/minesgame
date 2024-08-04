@@ -97,7 +97,6 @@ app.post("/getdata", (req, res) => {
 });
 
 app.post("/feedback", (req, res) => {
-  console.log(req.body);
   fs.readFile("feedback.txt", (err, data) => {
     let arr = JSON.parse(data.toString());
     arr.push(req.body);
