@@ -3,28 +3,27 @@ import GameInfo from "./components/gameinfo"
 import GameArea from "./components/gamearea"
 import Options from "./components/options"
 import Footer from "./components/footer"
+import Resetscore from "./components/resetscore"
 import successaudio from "./assets/music/success.mp3"
 import failaudio from "./assets/music/fail.mp3"
 import startaudio from "./assets/music/game-start.mp3"
-
-
 import { useState } from "react"
-
 
 
 function App() {
 	let link = window.location.href.split(":")
 	let maxScore = localStorage.getItem("maxScore") || 0;
+	let [secmsg, setsecmsg] = useState(null)
 	let [interval, setinterval] = useState(null)
 	let [gamestarted, setgamestarted] = useState(false)
 	let [expired, setexpired] = useState(false)
 	let [score, setscore] = useState(0)
 	let [nclicked, setnclicked] = useState(0)
-	let [gameid, setgameid] = useState("1234")
 	window.onload = () => {
 		sessionStorage.removeItem("token")
 	}
 	const startgame = () => {
+		setsecmsg(null)
 		setscore(0)
 		setnclicked(0)
 		new Audio(startaudio).play()
@@ -47,7 +46,7 @@ function App() {
 				bombs: mines
 			})
 		}).then(res => res.json()).then((data) => {
-			setgameid(data.gameid)
+			document.querySelector(".gameid p ").innerHTML = "Gameid: <strong>" + data.gameid + "</strong>"
 			sessionStorage.setItem("token", data.token)
 			setgamestarted(true);
 		})
@@ -85,7 +84,18 @@ function App() {
 				new Audio(successaudio).play()
 				setnclicked((nclicked) => { return nclicked + 1 })
 				if (nclicked + 1 === 16 - data.mines) {
-					console.log("yes")
+					document.querySelectorAll(".blocks .block").forEach((value) => {
+						if (!value.classList.contains("success")) {
+							value.classList.add("fail")
+						}
+					})
+					if (score > (parseInt(localStorage.getItem("maxScore")) || 0)) {
+						localStorage.setItem("maxScore", score)
+						setsecmsg("New High Score: ")
+					}
+					clearInterval(interval)
+					document.querySelector(".timer p").innerHTML = "Timer: <strong>10:00</strong>"
+					gameexpired()
 				}
 				setscore((score) => { return score + ((nclicked + 1) * parseInt(data.mines)) })
 			} else {
@@ -100,7 +110,8 @@ function App() {
 				e.target.classList.add("fail")
 				new Audio(failaudio).play()
 				if (score > (parseInt(localStorage.getItem("maxScore")) || 0)) {
-					localStorage.setItem("maxScore", score)
+					localStorage.setItem("maxScore", score);
+					setsecmsg("New High Score: ")
 				}
 				clearInterval(interval)
 				document.querySelector(".timer p").innerHTML = "Timer: <strong>10:00</strong>"
@@ -114,11 +125,11 @@ function App() {
 		<div className="game">
 			<Header />
 			<div className="maingame">
-				<GameInfo gameid={gameid} gamestarted={gamestarted} gameexpired={gameexpired} score={score} maxScore={maxScore} setinterval={setinterval} />
-				<GameArea gamestarted={gamestarted} setscore={setscore} startgame={startgame} expired={expired} clickedgameover={clickedgameover} score={score} clicked={clicked} />
+				<GameInfo gamestarted={gamestarted} gameexpired={gameexpired} score={score} maxScore={maxScore} setinterval={setinterval} />
+				<GameArea secmsg={secmsg} gamestarted={gamestarted} setscore={setscore} startgame={startgame} expired={expired} clickedgameover={clickedgameover} score={score} clicked={clicked} />
 			</div>
-
 			<Options gamestarted={gamestarted} />
+			<Resetscore />
 			<Footer />
 		</div>
 

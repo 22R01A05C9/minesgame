@@ -6,6 +6,7 @@
 	font-family: "Poppins", sans-serif;
 	padding: 0;
 	margin: 0;
+	-webkit-tap-highlight-color: transparent;
 }
 
 :root {
@@ -133,7 +134,6 @@ body {
 
 .options {
 	margin-top: 40px;
-	padding-bottom: 50px;
 }
 
 .options p {
@@ -164,7 +164,7 @@ body {
 
 .active {
 	background-color: var(--light-black) !important;
-	scale: 1.1;
+	scale: 1.2;
 }
 
 .footer {
@@ -225,6 +225,66 @@ body {
 	}
 }
 
+.reset {
+	margin-top: 30px;
+	padding: 10px;
+	border-radius: 10px;
+	color: var(--font-color);
+	background-color: var(--button-background);
+	border: none;
+	cursor: pointer;
+
+}
+
+.resetdiv {
+	text-align: center;
+	padding-bottom: 100px;
+}
+
+.warningcard {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: var(--shading-background);
+}
+
+.warning {
+	background-color: white;
+	height: fit-content;
+	padding: 20px;
+	width: fit-content;
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 10px;
+}
+
+.warning h3 {
+	margin: 10px 0 10px 0;
+}
+
+.warning p {
+	min-width: 60vw;
+}
+
+.warning .btn {
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-around;
+}
+
+.btn button {
+	background-color: var(--button-background);
+	color: var(--font-color);
+	border: none;
+	border-radius: 10px;
+	padding: 10px 20px;
+	width: 17vw;
+	text-align: center;
+}
 
 @media screen and (min-width:800px) and (max-width:1100px) {
 	.shading button {
@@ -252,7 +312,7 @@ body {
 	}
 
 	.gameinfo {
-		margin: 60px auto 0;
+		margin: 7vw auto 0;
 		width: 40%;
 		grid-template-columns: 20vw 19vw;
 		gap: 0px;
@@ -317,7 +377,7 @@ body {
 
 	.options {
 		position: absolute;
-		top: 320px;
+		top: 24vw;
 		width: 40%;
 		left: 20px;
 	}
@@ -334,6 +394,9 @@ body {
 
 	.shading button {
 		cursor: pointer;
+		height: 6vw;
+		width: 15vw;
+		font-size: 1.3rem;
 	}
 
 	.shading button:hover {
@@ -343,5 +406,35 @@ body {
 	.success .diamond, .fail .bomb, .success .twinkle {
 		height: 80px;
 		width: 80px;
+	}
+
+	.reset {
+		padding: 10px 20px;
+		border-radius: 10px;
+		color: var(--font-color);
+		background-color: var(--button-background);
+		border: none;
+		cursor: pointer;
+		font-size: 1.1rem;
+	}
+
+	.resetdiv {
+		position: relative;
+		bottom: 5vw;
+		width: 42%;
+		text-align: center;
+	}
+
+	.warning p {
+		min-width: 30vw;
+	}
+
+	.warning .btn button {
+		width: 10vw;
+		cursor: pointer;
+	}
+
+	.warning .btn button:hover {
+		scale: 1.1;
 	}
 }

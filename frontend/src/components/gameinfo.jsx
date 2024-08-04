@@ -36,7 +36,7 @@ function GameInfo(props) {
     return (
         <div className="gameinfo">
             <div className="gameid">
-                <p> Game ID: <strong>{props.gameid}</strong> </p>
+                <p> Game ID: <strong>1234</strong> </p>
             </div>
             <div className="maxscore">
                 <p>Max Scored: <strong>{props.maxScore}</strong></p>
