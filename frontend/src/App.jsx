@@ -4,6 +4,7 @@ import GameArea from "./components/gamearea"
 import Options from "./components/options"
 import Footer from "./components/footer"
 import Resetscore from "./components/resetscore"
+import Feedback from "./components/feedback"
 import successaudio from "./assets/music/success.mp3"
 import failaudio from "./assets/music/fail.mp3"
 import startaudio from "./assets/music/game-start.mp3"
@@ -54,7 +55,9 @@ function App() {
 	}
 
 	const clickedgameover = () => {
-
+		if (localStorage.getItem("feedback") === null) {
+			document.querySelector(".feedbackdiv").style.display = "block"
+		}
 		setgamestarted(false);
 		setexpired(false);
 	}
@@ -130,6 +133,7 @@ function App() {
 			</div>
 			<Options gamestarted={gamestarted} />
 			<Resetscore />
+			<Feedback />
 			<Footer />
 		</div>
 

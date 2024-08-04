@@ -94,6 +94,11 @@ app.post("/getdata", (req, res) => {
   }
 });
 
+app.post("/feedback", (req, res) => {
+  console.log(req.body);
+  res.json({ msg: "Success" });
+});
+
 app.listen(5050, "0.0.0.0", () => {
   console.log("Server is running on http://localhost:5050");
 });
