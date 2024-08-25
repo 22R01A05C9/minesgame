@@ -38,7 +38,7 @@ function App() {
 				mines = value.innerHTML;
 			}
 		})
-		fetch(link[0] + ":" + link[1] + ":5050/creategame", {
+		fetch("/api/creategame", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -72,7 +72,7 @@ function App() {
 		}
 		let blockid = e.target.className.split(" ")[1].substring(1)
 
-		fetch(link[0] + ":" + link[1] + ":5050/getdata", {
+		fetch("/api/getdata", {
 			method: "POST",
 			headers: {
 				"content-type": "application/json"

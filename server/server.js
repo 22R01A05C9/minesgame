@@ -3,6 +3,9 @@ const app = express();
 const cors = require("cors");
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
+const { MongoClient } = require("mongodb");
+const client = new MongoClient("mongodb://localhost:27017");
+
 const corsOptions = {
   origin: [
     "http://localhost:5173",
@@ -17,12 +20,35 @@ function getrand() {
   return Math.floor(Math.random() * 16);
 }
 
+async function setgame(gameid) {
+  conn = await client.connect();
+  mines = conn.db("mines");
+  games = mines.collection("games");
+  games.insertOne({ gameid: gameid, status: "active" });
+}
+
+async function removegame(gameid) {
+  connection = await client.connect();
+  mines = connection.db("mines");
+  games = mines.collection("games");
+  games.updateOne({ gameid: gameid }, { $set: { status: "not active" } });
+}
+
+async function findgame(gameid) {
+  connection = await client.connect();
+  mines = connection.db("mines");
+  games = mines.collection("games");
+  return await games.findOne({ gameid: gameid });
+}
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/creategame", (req, res) => {
+async function creategame(req, res) {
   let gameid = Math.floor(Math.random() * 9000) + 1000;
+  while ((await findgame(gameid)) !== null) {
+    gameid = Math.floor(Math.random() * 9000) + 1000;
+  }
   let rands = [];
   let nb = parseInt(req.body.bombs);
   if (!nb) {
@@ -61,15 +87,13 @@ app.post("/creategame", (req, res) => {
     },
     "sfhafy8r3cnv74rn37ny4tct8v3r"
   );
-  console.log(l)
+  setgame(gameid);
   res.json({ token: jtoken, bombs: req.body.bombs, gameid: gameid });
-});
+}
 
-app.get("/creategame", (req, res) => {
-  res.json({ msg: "Hello" });
-});
+app.post("/creategame", creategame);
 
-app.post("/getdata", (req, res) => {
+async function getdata(req, res) {
   let token = req.body.token;
   let move = req.body.move;
   let data = jwt.verify(token, "sfhafy8r3cnv74rn37ny4tct8v3r");
@@ -82,11 +106,21 @@ app.post("/getdata", (req, res) => {
     res.json({ msg: "Time Out" });
     return;
   }
+  gamestatus = await findgame(data.gameid);
+  if (gamestatus === null) {
+    res.json({ msg: "Game Not Found" });
+    return;
+  }
+  if (gamestatus.status !== "active") {
+    res.json({ msg: "already game over" });
+    return;
+  }
   let bombs = data.bomb;
   let out = false;
   bombs.forEach((value) => {
     if (value === parseInt(move)) {
       out = true;
+      removegame(data.gameid);
       res.json({ msg: "Out", bombs: bombs });
       return;
     }
@@ -94,7 +128,9 @@ app.post("/getdata", (req, res) => {
   if (!out) {
     res.json({ msg: "Safe", mines: data.mines });
   }
-});
+}
+
+app.post("/getdata", getdata);
 
 app.post("/feedback", (req, res) => {
   fs.readFile("feedback.txt", (err, data) => {
