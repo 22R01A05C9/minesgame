@@ -111,11 +111,11 @@ async function getdata(req, res) {
     res.json({ msg: "Game Not Found" });
     return;
   }
+  let bombs = data.bomb;
   if (gamestatus.status !== "active") {
-    res.json({ msg: "already game over" });
+    res.json({ msg: "already game over", bombs: bombs });
     return;
   }
-  let bombs = data.bomb;
   let out = false;
   bombs.forEach((value) => {
     if (value === parseInt(move)) {

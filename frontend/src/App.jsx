@@ -12,7 +12,6 @@ import { useState } from "react"
 
 
 function App() {
-	let link = window.location.href.split(":")
 	let maxScore = localStorage.getItem("maxScore") || 0;
 	let [secmsg, setsecmsg] = useState(null)
 	let [interval, setinterval] = useState(null)
@@ -110,7 +109,9 @@ function App() {
 						value.classList.add("success")
 					}
 				})
-				e.target.classList.add("fail")
+				if (data.msg === "Out") {
+					e.target.classList.add("fail")
+				}
 				new Audio(failaudio).play()
 				if (score > (parseInt(localStorage.getItem("maxScore")) || 0)) {
 					localStorage.setItem("maxScore", score);
