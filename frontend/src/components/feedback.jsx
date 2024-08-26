@@ -32,7 +32,7 @@ function Feedback() {
             document.querySelector(".give").style.display = "block"
         } else {
             let link = window.location.href.split(":")
-            fetch(link[0] + ":" + link[1] + ":5050/feedback", {
+            fetch("/api/feedback", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
