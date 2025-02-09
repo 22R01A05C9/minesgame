@@ -1,4 +1,14 @@
-function Feedback() {
+function Star({i, clickedstar}){
+    return (
+        <div className={"star ss"+i} onClick={clickedstar}>
+            <svg className="s1" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" /></svg>
+            <svg className="s2" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" /></svg>
+        </div>
+    )
+}
+
+
+function Feedback({application}) {
     let rating = 0;
     const clickedstar = (e) => {
         document.querySelector(".give").style.display = "none"
@@ -31,15 +41,13 @@ function Feedback() {
         if (rating === 0) {
             document.querySelector(".give").style.display = "block"
         } else {
-            let link = window.location.href.split(":")
             fetch("/api/feedback", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
                 },
-                body: JSON.stringify({ stars: rating, suggestion: document.querySelector("textarea").value })
+                body: JSON.stringify({ stars: rating, suggestion: document.querySelector("textarea").value, application:application })
             }).then(res => res.json()).then((data) => {
-                console.log(data)
                 if (data.msg === "Success") {
                     givenrating()
                 }
@@ -49,7 +57,7 @@ function Feedback() {
 
     const clickedthankyou = () => {
         document.querySelector(".thankyoudiv").style.display = "none"
-        localStorage.setItem("feedback", "true")
+        localStorage.setItem(application+"feedback", "true")
     }
     return (
         <div className="mainfeedback">
@@ -58,26 +66,9 @@ function Feedback() {
                     <h3>Feedback</h3>
                     <p>Please Rate Your Experience!</p>
                     <div className="stars">
-                        <div className="star ss1" onClick={clickedstar}>
-                            <svg className="s1" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" /></svg>
-                            <svg className="s2" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" /></svg>
-                        </div>
-                        <div className="star ss2" onClick={clickedstar}>
-                            <svg className="s1" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" /></svg>
-                            <svg className="s2" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" /></svg>
-                        </div>
-                        <div className="star ss3" onClick={clickedstar}>
-                            <svg className="s1" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" /></svg>
-                            <svg className="s2" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" /></svg>
-                        </div>
-                        <div className="star ss4" onClick={clickedstar}>
-                            <svg className="s1" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" /></svg>
-                            <svg className="s2" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" /></svg>
-                        </div>
-                        <div className="star ss5" onClick={clickedstar}>
-                            <svg className="s1" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" /></svg>
-                            <svg className="s2" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#5f6368"><path d="m233-120 65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Z" /></svg>
-                        </div>
+                        {[1,2,3,4,5].map((item)=>{
+                            return <Star key={item} i={item.toString()}  clickedstar={clickedstar} />
+                        })}
                     </div>
                     <p className="give">Please Give Rating</p>
                     <p>Any Suggestions?</p>

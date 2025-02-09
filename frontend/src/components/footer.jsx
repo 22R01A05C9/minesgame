@@ -1,12 +1,12 @@
-
-function Footer() {
+function Footer(){
     return (
         <div className="footer">
-            <p>This Website Is Developed By <a href="https://saiteja.fun">Saiteja</a></p>
+            <p>
+                Created By <a href="/">Saiteja</a> &copy; {new Date().getFullYear()}
+            </p>  
         </div>
-
     )
 }
 
 
-export default Footer;
+export default Footer

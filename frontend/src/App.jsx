@@ -1,17 +1,17 @@
 import Header from "./components/header"
-import GameInfo from "./components/gameinfo"
-import GameArea from "./components/gamearea"
-import Options from "./components/options"
-import Footer from "./components/footer"
-import Resetscore from "./components/resetscore"
-import Feedback from "./components/feedback"
+import Choose from "./components/choose"
+import Game from "./components/game"
+import Statistics from "./components/stastics"
 import successaudio from "./assets/music/success.mp3"
 import failaudio from "./assets/music/fail.mp3"
 import startaudio from "./assets/music/game-start.mp3"
-import { useState } from "react"
-
+import { lazy, useEffect, useState } from "react"
+const Feedback = lazy(()=>import("./components/feedback"))
 
 function App() {
+    useEffect(()=>{
+        document.title = "Mines Game";
+    },[])
 	let maxScore = localStorage.getItem("maxScore") || 0;
 	let [secmsg, setsecmsg] = useState(null)
 	let [interval, setinterval] = useState(null)
@@ -19,6 +19,7 @@ function App() {
 	let [expired, setexpired] = useState(false)
 	let [score, setscore] = useState(0)
 	let [nclicked, setnclicked] = useState(0)
+	let [show, setshow] = useState("Game")
 	window.onload = () => {
 		sessionStorage.removeItem("token")
 	}
@@ -37,7 +38,7 @@ function App() {
 				mines = value.innerHTML;
 			}
 		})
-		fetch("/api/creategame", {
+		fetch("/api/mines/creategame", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -54,7 +55,8 @@ function App() {
 	}
 
 	const clickedgameover = () => {
-		if (localStorage.getItem("feedback") === null) {
+		if (localStorage.getItem("minesfeedback") === null) {
+			document.querySelector(".mainfeedback").style.display = "block"
 			document.querySelector(".feedbackdiv").style.display = "block"
 		}
 		setgamestarted(false);
@@ -71,7 +73,7 @@ function App() {
 		}
 		let blockid = e.target.className.split(" ")[1].substring(1)
 
-		fetch("/api/getdata", {
+		fetch("/api/mines/getdata", {
 			method: "POST",
 			headers: {
 				"content-type": "application/json"
@@ -127,15 +129,12 @@ function App() {
 
 	return (
 		<div className="game">
-			<Header />
-			<div className="maingame">
-				<GameInfo gamestarted={gamestarted} gameexpired={gameexpired} score={score} maxScore={maxScore} setinterval={setinterval} />
-				<GameArea secmsg={secmsg} gamestarted={gamestarted} setscore={setscore} startgame={startgame} expired={expired} clickedgameover={clickedgameover} score={score} clicked={clicked} />
-			</div>
-			<Options gamestarted={gamestarted} />
-			<Resetscore />
-			<Feedback />
-			<Footer />
+			<Header ext="/#" active="projects"/>
+			<Choose setshow={setshow}/>
+			{show === "Game" ? <Game gameexpired={gameexpired} score={score} maxScore={maxScore} setinterval={setinterval} secmsg={secmsg} gamestarted={gamestarted} setscore={setscore} startgame={startgame} expired={expired} clicked={clicked} clickedgameover={clickedgameover} /> : <Statistics />}
+            {
+                localStorage.getItem("minesfeedback") === null ? <Feedback application="mines"/> : null
+            }
 		</div>
 
 	)
