@@ -1,34 +1,42 @@
 const { MongoClient } = require("mongodb");
-const client = new MongoClient(process.env.MONGO_URL);
+const client = new MongoClient("mongodb://localhost:27017");
 const cryptojs = require("crypto-js");
 const express = require("express")
-
-
 const app = express()
+
 app.use(express.json())
+
 
 function getrand() {
 	return Math.floor(Math.random() * 16);
 }
 
+async function incrementgamecount() {
+	let conn = await client.connect()
+	let db = conn.db("website");
+	let stats = db.collection("stats")
+	stats.findOneAndUpdate({app:"mines"},{$inc:{count:1}})
+}
+
 async function setgame(gameid) {
-	conn = await client.connect();
-	mines = conn.db("mines");
-	games = mines.collection("games");
+	let conn = await client.connect();
+	let mines = conn.db("website");
+	let games = mines.collection("mines");
 	games.insertOne({ gameid: gameid, status: "active" });
+
 }
 
 async function removegame(gameid) {
-	connection = await client.connect();
-	mines = connection.db("mines");
-	games = mines.collection("games");
+	let connection = await client.connect();
+	let mines = connection.db("website");
+	let games = mines.collection("mines");
 	games.deleteOne({ gameid: gameid });
 }
 
 async function findgame(gameid) {
-	connection = await client.connect();
-	mines = connection.db("mines");
-	games = mines.collection("games");
+	let connection = await client.connect();
+	let mines = connection.db("website");
+	let games = mines.collection("mines");
 	return await games.findOne({ gameid: gameid });
 }
 
@@ -73,10 +81,14 @@ async function creategame(req, res) {
 			gameid: gameid,
 			mines: nb,
 		}),
-		process.env.MINES_API_KEY
+		"48y5fiehrith488vy34n98u409c3"
 	).toString();
 	setgame(gameid);
+	setTimeout(()=>{
+		removegame(gameid)
+	},60*1000*10)
 	res.json({ token: jtoken, bombs: req.body.bombs, gameid: gameid });
+	incrementgamecount()
 }
 
 app.post("/mines/creategame", creategame);
@@ -84,7 +96,7 @@ app.post("/mines/creategame", creategame);
 async function getdata(req, res) {
 	let token = req.body.token;
 	let move = req.body.move;
-	let data = JSON.parse(cryptojs.AES.decrypt(token, process.env.MINES_API_KEY).toString(cryptojs.enc.Utf8));
+	let data = JSON.parse(cryptojs.AES.decrypt(token, "48y5fiehrith488vy34n98u409c3").toString(cryptojs.enc.Utf8));
 	if (!data || !data.game || !data.ct || !data.mt || !data.bomb || !data.gameid) {
 		res.json({ msg: "Invalid Token" });
 		return;
@@ -120,30 +132,48 @@ async function getdata(req, res) {
 
 app.post("/mines/getdata", getdata);
 
-async function pushfeedback(body) {
-	let conn = await client.connect();
-	let mines = conn.db("mines");
-	let feedbacks = mines.collection("feedbacks");
-	await feedbacks.insertOne(body);
+async function connectdb(db, collection) {
+    try {
+        let client = new MongoClient(process.env.MONGO_URL)
+        const conn = await client.connect()
+        return conn.db(db).collection(collection)
+    } catch (err) {
+        return { error: err }
+    }
+
 }
 
-async function getfeedbacks() {
-	let conn = await client.connect();
-	let mines = conn.db("mines");
-	let feedbacks = mines.collection("feedbacks");
-	let res = await feedbacks.find({}, { "projection": { _id: 0 } }).toArray();
-	return res
+async function feedback(req,res){
+    let data = req.body
+    if(!data){
+        res.json({error:true,message:"No Data Found"})
+        return;
+    }
+    if(!data.stars || !data.application ){
+        res.json({error:true,message:"Incomplete Data"})
+        return;
+    }
+    let collection = await connectdb("website","feedbacks")
+    collection.insertOne({time:Date(), rating:data.stars, website:data.application, suggestion:data.suggestion})
+    res.json({error:false,msg:"Success"})
+
 }
 
-app.post("/mines/feedback", (req, res) => {
-	req.body.time = new Date();
-	pushfeedback(req.body)
-	res.json({ msg: "Success" });
-});
+async function getfeedbacks(req,res) {
+    let app = req.params?.app
+    let db = await connectdb("website","feedbacks")
+    let data
+    if(app){
+        data = await db.find({website:app},{projection:{_id:0}}).toArray()
+    }else{
+        data = await db.find({},{projection:{_id:0}}).toArray()
+    }
+    res.json(data)
+}
 
-app.get("/mines/feedback", (req, res) => {
-	getfeedbacks().then((data) => res.json(data))
-});
+app.post("/feedback",feedback)
+app.get("/feedback/:app",getfeedbacks)
+app.get("/feedback",getfeedbacks)
 
 app.listen(5000,()=>{
 	console.log("server started on 5000");

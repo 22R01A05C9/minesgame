@@ -37,7 +37,8 @@ input::-webkit-inner-spin-button {
 	--shading-background: light-dark(#65656559,#44444485);
 	--button-border: light-dark(#212121,#959292);
 	--light-black:  light-dark(#f0f0f0,#0c0c0c);
-	--choose: light-dark(#ffffff,#575757)
+	--choose-active: light-dark(#9b9a9a,#575757);
+	--choose: light-dark(#c0c0c0,#292929);
 }
 
 html{
@@ -53,9 +54,7 @@ html{
 
 }
 
-.game{
-	margin-bottom: 20px;
-}
+
 
 .gameinfo {
 	display: grid;
@@ -99,10 +98,6 @@ html{
 	justify-content: center;
 	border-radius: 10px;
 	background-color: var(--block-base);
-}
-
-.blocks .block img {
-	display: none;
 }
 
 .blocks .block:hover {
@@ -178,12 +173,14 @@ html{
 	color: var(--text);
 	border-radius: 10px;
 	font-size: 15px;
+	cursor: pointer;
 }
 
-.active {
+.activeoption {
 	background-color: var(--light-black) !important;
 	scale: 1.2;
 }
+
 
 
 .fail .bomb, .success .diamond, .success .twinkle {
@@ -226,7 +223,7 @@ html{
 }
 
 .reset {
-	margin-top: 30px;
+	margin: 30px 0;
 	padding: 10px;
 	border-radius: 10px;
 	color: var(--text);
@@ -268,10 +265,12 @@ html{
 
 .warning h3 {
 	margin: 10px 0 10px 0;
+	text-align: center;
 }
 
 .warning p {
 	min-width: 60vw;
+	text-align: center;
 }
 
 .warning .btn {
@@ -288,6 +287,12 @@ html{
 	padding: 10px 20px;
 	width: 17vw;
 	text-align: center;
+	cursor: pointer;
+}
+
+.btn button:hover{
+	background-color: var(--blue-dim);
+	scale:1.02;
 }
 
 .stars {
@@ -297,7 +302,7 @@ html{
 	cursor: pointer;
 }
 
-.stars .s2 {
+.stars .s2, .hidden, .blocks .block img {
 	display: none;
 }
 
@@ -405,7 +410,6 @@ html{
 
 	.options .buttons button {
 		min-width: 6vw;
-		cursor: pointer;
 	}
 
 	.shading button {
@@ -436,7 +440,7 @@ html{
 
 	.resetdiv {
 		position: relative;
-		bottom: 5vw;
+		bottom: 10vw;
 		width: 42%;
 		text-align: center;
 	}
@@ -474,99 +478,256 @@ html{
 }
 
 .choose .cactive{
-	background-color: var(--block-hover);
+	background-color: var(--choose-active);
 	scale:1.01;
 }
 
+.statistics{
+	display: flex;
+	flex-direction: row;
+	height: 75dvh;
+	align-items: center;
+	justify-content: center;	
+}
 
-.switchthemeback {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: row;
+.statistics .left{
+	display: flex;
+	flex-direction: column;
+	width: 47%;
+	height: 50%;
+	align-items: center;
+	justify-content: center;
+	gap:40px;
+}
+
+.statistics .left .info{
+	display: grid;
+	grid-template-columns: 21vw 21vw;
+	grid-template-rows: 40px 40px;
+	justify-content: center;
+	border: 2px solid var(--text);
+	border-radius: 10px;
+	width: 90%;
+	margin: 0 0 0 10px;
+	align-items: center;
+}
+
+.info div{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.total, .info .maxscore{
+	border-bottom: 1px solid var(--text);
+}
+
+.minscore, .average{
+	border-top: 1px solid var(--text);
+}
+
+.average, .info .maxscore{
+	border-left: 1px solid var(--text);
+}
+
+.total, .minscore{
+	border-right: 1px solid var(--text);
+}
+
+.statistics .left button{
+	padding: 10px;
+	border-radius: 10px;
+	color: var(--text);
+	background-color: var(--blue);
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-size: 1rem;
+}
+
+.statistics .left button:hover {
+	scale: 1.02;
+	background-color: var(--blue-dim);
+}
+
+.chart{
+	width: 45%;
+	height: 70%;
+	display: flex;
+	flex-direction: column;
+	gap:10px;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.chart p{
+	margin-left:10px;
+}
+
+.playgame p{
+	text-align: center;
+	width: 80%;
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+
+.playgame{
+	height: 75dvh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@media screen and (max-width:1000px){
+	.statistics{
+		margin-top: 40px;
+		flex-direction: column;
+		gap:30px;
+		height:80%;
+		padding-bottom: 100px;
+		position: relative;
+	}
+
+	.statistics .left{
+		width: 100%;
+		height: fit-content;
+	}
+	.statistics .left .info{
+		width: 90%;
+		grid-template-columns: 50% 50%;
+	}
+
+	.info div{
+		font-size: 0.8rem;
+	}
+
+	.resetstats{
+		position: absolute;
+		top:85%;
+	}
+
+	.chart{
+		width: 100%;
+		height: 300px;
+	}
+}
+
+.mainfeedback{
+	display: none;
+}
+
+.feedbackdiv, .thankyoudiv {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	z-index: 2;
+	background-color: var(--shading-background);
+}
+
+.feedback, .thankyou {
+	background-color: var(--feedback);
+	height: fit-content;
+	padding: 20px;
+	width: fit-content;
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px
+}
+
+.thankyoudiv, .stars .s2, .feedbackdiv {
+	display: none;
+}
+
+.s2{
+    fill: var(--text);
+}
+
+.thankyou p {
+	min-width: 40vw;
+	text-align: center;
+}
+
+.feedback p {
+	min-width: 50vw;
+	text-align: center;
+}
+
+textarea {
+	outline: none;
+	border-radius: 10px;
+	border: 2px solid black;
+	padding: 10px;
+}
+
+.stars {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	cursor: pointer;
     height: 30px;
-    width: 60px;
-    background-color: var(--switch-back);
-    border-radius: 20px;
 }
 
-.switchthemeback::after {
-    content: "";
-    animation: moveleft 0.2s linear;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 2px;
-    transform: translateY(-50%);
-    height: 26px;
-    width: 30px;
-    border-radius: 20px;
-    background-color: var(--switch-ball);
-    overflow: hidden;
-    cursor: pointer;
+.feedback button, .thankyou button {
+	background-color: var(--blue);
+	color: var(--font-color);
+	border: none;
+	border-radius: 10px;
+	padding: 10px 20px;
+	text-align: center;
+	cursor: pointer;
 }
 
-.dark .switchthemeback::after {
-    right: 1px;
-    left: auto;
-    animation: moveright 0.2s linear;
-
+.feedback button:hover, .thankyou button:hover {
+	scale: 1.03;
 }
 
-.dark .lighticon {
-    visibility: hidden;
+.give {
+	color: red;
+	display: none;
 }
 
-.switchtheme {
-    cursor: pointer;
-    position: relative;
-}
+@media screen and (min-width:1101px) {
 
-.lighticon {
-    height: 20px;
-    z-index: 1;
-    margin-left: 2px;
-}
-
-.darkicon {
-    height: 20px;
-    visibility: hidden;
-    z-index: 1;
-}
-
-.dark .darkicon {
-    visibility: visible;
-    animation: fadein 0.2s linear;
-}
-
-@keyframes fadein {
-    0% {
-        opacity: 0;
+    .feedback p {
+        min-width: 30vw;
     }
 
-    100% {
-        opacity: 1;
+    .thankyou p {
+        min-width: 15vw;
+        text-align: center;
+    }
+
+    .feedback textarea {
+        width: 25vw;
     }
 }
 
-@keyframes moveleft {
-    0% {
-        left: 29px;
-    }
-
-    100% {
-        left: 1px;
-    }
+.footer{
+    background-color: var(--footer);
+    width: 100%;    
+    text-align: center;
+    padding: 2px 0;
 }
 
-@keyframes moveright {
-    0% {
-        left: 1px;
-    }
+.footer p{
+    color: var(--text);
+    font-size: 0.9rem;
+}
 
-    100% {
-        left: 29px;
-    }
+.footer p a{
+    text-decoration: none;
+    color: var(--text-dim);
 }
 
 header {
@@ -702,117 +863,92 @@ header {
     }
 }
 
-.footer{
-    background-color: var(--footer);
-    width: 100%;    
-    text-align: center;
-    padding: 2px 0;
-}
-
-.footer p{
-    color: var(--text);
-    font-size: 0.9rem;
-}
-
-.footer p a{
-    text-decoration: none;
-    color: var(--text-dim);
-}
-
-.mainfeedback{
-	display: none;
-}
-
-.feedbackdiv, .thankyoudiv {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100vh;
-	width: 100vw;
-	z-index: 2;
-	background-color: var(--shading-background);
-}
-
-.feedback, .thankyou {
-	background-color: var(--feedback);
-	height: fit-content;
-	padding: 20px;
-	width: fit-content;
-	position: absolute;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 10px
-}
-
-.thankyoudiv, .stars .s2, .feedbackdiv {
-	display: none;
-}
-
-.s2{
-    fill: var(--text);
-}
-
-.thankyou p {
-	min-width: 40vw;
-	text-align: center;
-}
-
-.feedback p {
-	min-width: 50vw;
-	text-align: center;
-}
-
-textarea {
-	outline: none;
-	border-radius: 10px;
-	border: 2px solid black;
-	padding: 10px;
-}
-
-.stars {
-	display: flex;
-	gap: 10px;
-	justify-content: center;
-	cursor: pointer;
+.switchthemeback {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
     height: 30px;
+    width: 60px;
+    background-color: var(--switch-back);
+    border-radius: 20px;
 }
 
-.feedback button, .thankyou button {
-	background-color: var(--blue);
-	color: var(--font-color);
-	border: none;
-	border-radius: 10px;
-	padding: 10px 20px;
-	text-align: center;
-	cursor: pointer;
+.switchthemeback::after {
+    content: "";
+    animation: moveleft 0.2s linear;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    transform: translateY(-50%);
+    height: 26px;
+    width: 30px;
+    border-radius: 20px;
+    background-color: var(--switch-ball);
+    overflow: hidden;
+    cursor: pointer;
 }
 
-.feedback button:hover, .thankyou button:hover {
-	scale: 1.03;
+.dark .switchthemeback::after {
+    right: 1px;
+    left: auto;
+    animation: moveright 0.2s linear;
+
 }
 
-.give {
-	color: red;
-	display: none;
+.dark .lighticon {
+    visibility: hidden;
 }
 
-@media screen and (min-width:1101px) {
+.switchtheme {
+    cursor: pointer;
+    position: relative;
+}
 
-    .feedback p {
-        min-width: 30vw;
+.lighticon {
+    height: 20px;
+    z-index: 1;
+    margin-left: 2px;
+}
+
+.darkicon {
+    height: 20px;
+    visibility: hidden;
+    z-index: 1;
+}
+
+.dark .darkicon {
+    visibility: visible;
+    animation: fadein 0.2s linear;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
     }
 
-    .thankyou p {
-        min-width: 15vw;
-        text-align: center;
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes moveleft {
+    0% {
+        left: 29px;
     }
 
-    .feedback textarea {
-        width: 25vw;
+    100% {
+        left: 1px;
+    }
+}
+
+@keyframes moveright {
+    0% {
+        left: 1px;
+    }
+
+    100% {
+        left: 29px;
     }
 }

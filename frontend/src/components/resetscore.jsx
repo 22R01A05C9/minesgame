@@ -4,14 +4,14 @@ function Resetscore() {
 
     let [show, setshow] = useState(false);
     const clickedyes = () => {
-        localStorage.setItem("maxScore", 0);
+        localStorage.setItem("minesstatistics", null);
         window.location.reload();
     }
 
     return (
         <div className="resetdiv">
-            <button className="reset" onClick={() => { setshow(true) }}>Reset Highest Score</button>
-            {show ? <Warning msg={"Are You Sure You Want To Reset Maximum Score ?"} yes={clickedyes} no={() => { setshow(false) }} /> : null}
+            <button className="reset" onClick={() => { setshow(true) }}>Reset Statistics</button>
+            {show ? <Warning msg={"Are You Sure You Want To Reset Statistics ?"} yes={clickedyes} no={() => { setshow(false) }} /> : null}
         </div>
     )
 }

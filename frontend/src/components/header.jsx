@@ -1,6 +1,5 @@
 import { useRef } from "react";
-import SwitchTheme from "./switchtheme";
-
+import SwitchTheme from "./switchtheme"
 
 function Header({ext, active}) {
 	const headeref = useRef()
